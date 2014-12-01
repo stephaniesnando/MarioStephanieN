@@ -10,7 +10,7 @@ game.TitleScreen = me.ScreenObject.extend({
                 me.game.world.addChild(new (me.Renderable.extend({
                     init: function() {
                         this._super(me.Renderable, 'init', [510, 30, me.game.viewport.width, me.game.viewport.height]);
-                        this.font = new me.Font("Times New Roman", 50, "white");
+                        this.font = new me.Font("times new roman", 50, "white");
                     },
                     
                     draw: function(renderer) {
