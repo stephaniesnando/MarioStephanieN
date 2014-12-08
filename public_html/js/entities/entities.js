@@ -114,6 +114,8 @@ game.BadGuy = me.Entity.extend({
        }]); 
    
    this.spritewidth = 60;
+   x = this.pos.x;
+   this.startX = x;
    
     },
     
