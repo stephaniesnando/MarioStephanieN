@@ -25,22 +25,30 @@ game.PlayerEntity = me.Entity.extend({
     update: function(delta) {
         if(me.input.isKeyPressed("right")){
             this.body.vel.x += this.body.accel.x * me.timer.tick;
+            this.flipX(false);
             
             
         } else if (me.input.isKeyPressed('left')) {
             // unflip the sprite
-            this.flipX(false);
+            this.flipX(true);
             // update the entity velocity
-            this.body.vel.x += this.body.accel.x * me.timer.tick;
+            this.body.vel.x -= this.body.accel.x * me.timer.tick;
             // change to the walking animation
-            if (!this.renderable.isCurrentAnimation("walk")) {
-                this.renderable.setCurrentAnimation("walk");
+            if (!this.renderable.isCurrentAnimation("smallWalk")) {
+                this.renderable.setCurrentAnimation("smallWalk");
             }
             
         }else{
             this.body.vel.x = 0;
         }
         
+        if(me.input.isKeyPressed("jump")){
+            if(!this.body.jumping && !this.body.falling){
+                this.body.jumping = true;
+                this.body.vel.y -= this.body.accel.y * me.timer.tick;
+            }
+        }
+  
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
         
@@ -54,17 +62,6 @@ game.PlayerEntity = me.Entity.extend({
             this.renderable.setCurrentAnimation("idle");
         }
 
-        if (me.input.isKeyPressed('jump')) {   
-    if (!this.body.jumping && !this.body.falling) {
-        // set current vel to the maximum defined value
-        // gravity will then do the rest
-        this.body.vel.y = -this.body.maxVel.y * me.timer.tick;
-        // set the jumping flag
-        this.body.jumping = true;
-        // play some audio 
-        me.audio.play("jump");
-    }
-}
 
         this._super(me.Entity, "update", [delta] );
         return true;
@@ -99,6 +96,29 @@ game.LevelTrigger = me.Entity.extend({
         this.body.setCollisionMask(me.collision.types.NO_OBJECT);
         me.levelDirector.loadLevel(this.level);
         me.state.current(). resetPlayer(this.xSpawn, this.ySpawn);
+    }
+    
+});
+
+game.BadGuy = me.Entity.extend({
+    init: function (x, y, settings){
+       this._super(me.Entity, 'init', [x,y, {
+                image: "slime",
+                spritewidth: "60",
+                spriteheight:"28",
+                width: 60,
+                height: 28,
+                getShape: function (){
+                    return (new me.Rect(0, 0, 60, 28)).toPolygon();
+                }
+       }]); 
+   
+   this.spritewidth = 60;
+   
+    },
+    
+    update: function(delta){
+        
     }
     
 });
