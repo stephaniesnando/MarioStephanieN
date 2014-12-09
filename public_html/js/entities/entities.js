@@ -114,13 +114,29 @@ game.BadGuy = me.Entity.extend({
        }]); 
    
    this.spritewidth = 60;
+   var width = settings.width;
    x = this.pos.x;
    this.startX = x;
+   this.endX = x + width - this.spritewidth;
+   this.pos.x = x + width - this.spritewidth;
+   this.updateBounds();
+   
+   this.alwaysUpdate = true;
+   
+   this.walkLeft = false;
+   this.alive = true;
+   this.type = "badguy";
+   
+   this.renderable.addAnimation*("run", [0, 1, 2], 80);
+   this.renderable.setCurrentAnimation("run");
+   
+   this.body.setVelocity(4, 6);
    
     },
     
     update: function(delta){
-        
+        this.body.update(delta);
+        me.collision.check(this, true, this.collideHandler.bind(this), true);
     }
     
 });
