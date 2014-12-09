@@ -68,6 +68,9 @@ game.PlayerEntity = me.Entity.extend({
     },
                             
     collideHandler: function(response){
+        if(response.b.type === 'badguy'){
+            me.state.change(me.state.MENU);
+        }
     }
     
     
@@ -137,6 +140,28 @@ game.BadGuy = me.Entity.extend({
     update: function(delta){
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
-    }
+        
+        if(this.alive){
+            if(this.walkLeft && this.pos.x <= this.startX){
+                this.walkLeft = false;
+            }else if(!this.walkLeft && this.pos.x >= this.endX){
+                this.walkLeft = true;
+            }
+            this.flipX(!this.walkLeft);
+            this.body.vel.x += (this.walkLeft) ? -this.body.accel.x * me.timer.tick : this.body.accel.x * me.timer.tick;
+                
+         
+            
+        }else{
+            me.game.world.removeChild(this);
+        }
+        
+        this._super(me.Entity, "update", [delta]);
+        return true; 
+    },
+   
+   collideHandler: function(){
+       
+   }
     
 });
