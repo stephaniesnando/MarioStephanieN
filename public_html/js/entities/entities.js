@@ -68,12 +68,18 @@ game.PlayerEntity = me.Entity.extend({
     },
                             
     collideHandler: function(response){
+        var ydif = this.pos.y - response.b.pos.y;
+        console.log(ydif);
+        
         if(response.b.type === 'badguy'){
-            me.state.change(me.state.MENU);
+            if(ydif <= -115){
+                response.b.alive = false;
+            }else{
+                me.state.change(me.state.MENU);
         }
     }
-    
-    
+}
+  
 });
 
 
