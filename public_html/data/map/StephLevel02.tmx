@@ -36,4 +36,7 @@
   <object name="BadGuy" x="702" y="490" width="266" height="66"/>
   <object name="BadGuy" x="858" y="488" width="166" height="68"/>
  </objectgroup>
+ <objectgroup name="Mushroom">
+  <object name="Mushroom" x="490" y="350" width="68" height="66"/>
+ </objectgroup>
 </map>
