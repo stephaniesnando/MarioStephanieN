@@ -11,7 +11,7 @@ game.PlayerEntity = me.Entity.extend({
                     return (new me.Rect(0, 0, 30, 128)).toPolygon();
                 }
        }]);
-    
+    //  this does the animaton, the numbers represent the images?
         this.renderable.addAnimation("idle", [3]);
         this.renderable.addAnimation("bigIdle", [19]);
         this.renderable.addAnimation("smallWalk", [8, 9, 10, 11, 12, 13], 80);
@@ -26,13 +26,13 @@ game.PlayerEntity = me.Entity.extend({
         this.body.setVelocity(5, 20);
         me.game.viewport.follow(this.pos, me.game.viewport.AXIS.BOTH);
     },
-    
+    // if the right key is pressed, my player will go right
     update: function(delta) {
         if(me.input.isKeyPressed("right")){
             this.body.vel.x += this.body.accel.x * me.timer.tick;
             this.flipX(false);
             
-            
+            // or if the left key is pressed, it'll go left
         } else if (me.input.isKeyPressed('left')) {
             // unflip the sprite
             this.flipX(true);
@@ -42,11 +42,11 @@ game.PlayerEntity = me.Entity.extend({
             if (!this.renderable.isCurrentAnimation("smallWalk")) {
                 this.renderable.setCurrentAnimation("smallWalk");
             }
-            
+           //if none of the keys are pressed, then it will not move 
         }else{
             this.body.vel.x = 0;
         }
-        
+        //if the space bar is pressed, my player will jump
         if(me.input.isKeyPressed("jump")){
             if(!this.body.jumping && !this.body.falling){
                 this.body.jumping = true;
@@ -56,7 +56,7 @@ game.PlayerEntity = me.Entity.extend({
   
         this.body.update(delta);
         me.collision.check(this, true, this.collideHandler.bind(this), true);
-        
+        // if the player collides with the mushroom, it will grow, if it collides with a enemy itll shrink
         if(!this.big){
         if (this.body.vel.x !== 0) {
             if (!this.renderable.isCurrentAnimation("smallWalk")&& !this.renderable.isCurrentAnimation("grow") &&! this.renderable.isCurrentAnimation("shrink")) {
@@ -86,7 +86,7 @@ game.PlayerEntity = me.Entity.extend({
     collideHandler: function(response){
         var ydif = this.pos.y - response.b.pos.y;
         console.log(ydif);
-        
+        // if the  plauer collides with the bad guy with out a mushrum, itll "die" but since I have only a Menu screen, itll go there
         if(response.b.type === 'badguy'){
             if(ydif <= -115){
                 response.b.alive = false;
@@ -104,23 +104,17 @@ game.PlayerEntity = me.Entity.extend({
                 
         }else if(response.b.type === 'mushroom'){
             this.renderable.setCurrentAnimation("grow", "bigIdle");
-        }
+        
             this.big = true;
             me.game.world.removeChild(response.b);
           console.log("!Big");  
         }
-    
+}
   
 });
 
 
-//this.updateMovement();
-//    if(this.vel.y !=0){
-//        this.setCurrentAnimation("jump");
-//    }else {
-//        this.setCurrentAnimation("walk");
-//    }
-
+// when my player collides with the door, itll go through to the next level.
 game.LevelTrigger = me.Entity.extend({
     init: function(x, y, settings){
         console.log("Trigger");
@@ -139,7 +133,7 @@ game.LevelTrigger = me.Entity.extend({
     }
     
 });
-
+// Bad guy.
 game.BadGuy = me.Entity.extend({
     init: function (x, y, settings){
        this._super(me.Entity, 'init', [x,y, {

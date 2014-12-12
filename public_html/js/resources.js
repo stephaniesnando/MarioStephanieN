@@ -4,6 +4,8 @@ game.resources = [
 	 * @example
 	 * {name: "example", type:"image", src: "data/img/example.png"},
 	 */
+        
+        // Dont know how to explain it, but this peice of coding is all the animations we're using on our map
         {name: "background-tiles", type:"image", src: "data/img/background-tiles.png"},
         {name: "meta-tiles", type:"image", src: "data/img/meta-tiles.png"},
         {name: "mario", type:"image", src: "data/img/player1.png"},
@@ -22,6 +24,8 @@ game.resources = [
 	 * {name: "example01", type: "tmx", src: "data/map/example01.tmx"},
 	 * {name: "example01", type: "tmx", src: "data/map/example01.json"},
  	 */
+        
+        // loading my levels, yes im sad i only have two
         {name: "StephLevel01", type: "tmx", src: "data/map/StephLevel01.tmx"},
         {name: "StephLevel02", type: "tmx", src: "data/map/StephLevel02.tmx"},
         
